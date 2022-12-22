@@ -43,3 +43,4 @@ services:
       eth_getProof: master
       eth_getUncleByBlockHashAndIndex: master
 pprof.port: 6969
+loggingLevel: debug

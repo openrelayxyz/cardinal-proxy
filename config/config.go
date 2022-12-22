@@ -4,6 +4,7 @@ import (
 	"errors"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	log "github.com/inconshreveable/log15"
 )
 
 type rpcService struct {
@@ -34,6 +35,7 @@ func (msg *RPCService) Unmarshal(v any) error {
 type Config struct {
 	Services []*RPCService `yaml:"services"`
 	PprofPort int `yaml:"pprof.port"`
+	LogLevel string `yaml:"loggingLevel"`
 }
 
 func LoadConfig(path string) (*Config, error) {
@@ -45,6 +47,21 @@ func LoadConfig(path string) (*Config, error) {
 	if err := yaml.Unmarshal(data, &config); err != nil {
 		return nil, err
 	}
+	var logLvl log.Lvl
+	switch config.LogLevel {
+	case "debug":
+		logLvl = log.LvlDebug
+	case "info":
+		logLvl = log.LvlInfo
+	case "warn":
+		logLvl = log.LvlWarn
+	case "error":
+		logLvl = log.LvlError
+	default:
+		logLvl = log.LvlInfo
+	}
+
+	log.Root().SetHandler(log.LvlFilterHandler(logLvl, log.Root().GetHandler()))
 	if len(config.Services) == 0 {
 		return nil, errors.New("Must specify at least one service")
 	}
