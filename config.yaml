@@ -1,0 +1,45 @@
+services:
+  - name: eth
+    ports.http: 8000
+    backend.urls:
+      flume: http://localhost:8001/
+      cardinal: http://localhost:8002/
+      master: http://localhost:8545/
+    backend.default: http://localhost:8002
+    backend.rpcmap:
+      eth_getLogs: flume
+      eth_getBlockByNumber: flume
+      eth_getBlockByHash: flume
+      flume_erc20ByAccount: flume
+      flume_erc20Holders: flume
+      flume_getTransactionsBySender: flume
+      flume_getTransactionReceiptsBySender: flume
+      flume_getTransactionsByRecipient: flume
+      flume_getTransactionReceiptsByRecipient: flume
+      flume_getTransactionsByParticipant: flume
+      flume_getTransactionReceiptsByParticipant: flume
+      flume_getTransactionReceiptsByBlockHash: flume
+      flume_getTransactionReceiptsByBlockNumber: flume
+      eth_getTransactionByHash: flume
+      eth_getTransactionReceipt: flume
+      eth_getTransactionCount: flume
+      eth_feeHistory: flume
+      eth_maxPriorityFeePerGas: flume
+      bor_getSignersAtHash: flume
+      bor_getSnapshot: flume
+      bor_getRootHash: flume
+      bor_getAuthor: flume
+      bor_getCurrentValidators: flume
+      bor_getCurrentProposer: flume
+      eth_getBorBlockReceipt: flume
+      eth_getTransactionReceiptsByBlock: flume
+      eth_getTransactionByBlockHashAndIndex: flume
+      eth_getTransactionByBlockNumberAndIndex: flume
+      eth_getBlockTransactionCountByNumber: flume
+      eth_getBlockTransactionCountByHash: flume
+      eth_getUncleCountByBlockNumber: flume
+      eth_getUncleCountByBlockHash: flume
+      eth_gasPrice: flume
+      eth_getProof: master
+      eth_getUncleByBlockHashAndIndex: master
+pprof.port: 6969
